@@ -24,4 +24,8 @@ public class Person {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public long getId() {
+        return id;
+    }
 }

@@ -1,6 +1,9 @@
 import jakarta.persistence.*;
 import jdk.jfr.Enabled;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +18,8 @@ public class School {
     private String name;
 
     @OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
-    private List<Student> students;
+    @Fetch(FetchMode.JOIN)
+    private List<Student> students = new ArrayList<>();
 
     public School() {
 
@@ -23,6 +27,14 @@ public class School {
 
     public School(String name) {
         this.name = name;
+    }
+
+    public void addStudentToSchool(Student student){
+        if (students.contains(student)){
+            throw new IllegalArgumentException("This school already have this student");
+        } else {
+            students.add(student);
+        }
     }
 
     @Override
